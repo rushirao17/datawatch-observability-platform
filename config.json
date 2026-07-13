@@ -1,0 +1,22 @@
+{
+  "glue_job_name": "client1_delta_loader",
+  "client_id": "client1",
+  "aws_endpoint": "http://localhost:4566",
+  "max_threads": 1,
+  "input_prefix": "s3://rawzone",
+  "delta_path": "s3://delta",
+  "schema_path": "s3://delta",
+  "db_details": {
+    "host": "localhost",
+    "database": "ecommerceapp",
+    "user": "postgres",
+    "password": "root",
+    "port": 5432
+  },
+  "collections_config": {
+    "orders": {
+      "microservice": "microservice1",
+      "merge_key": "key"
+    }
+  }
+}

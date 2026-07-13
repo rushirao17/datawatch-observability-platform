@@ -1,0 +1,40 @@
+services:
+  floci:
+    image: floci/floci:latest
+    ports:
+      - "4566:4566"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./data:/app/data
+    environment:
+      FLOCI_STORAGE_MODE: hybrid
+  
+  superset:
+    image: apache/superset:4.1.2
+    container_name: superset
+    ports:
+      - "8088:8088"
+    environment:
+      SUPERSET_SECRET_KEY: "change-this-secret-key"
+      TALISMAN_ENABLED: "False"
+    volumes:
+      - superset_home:/app/superset_home
+    command: >
+      /bin/sh -c "
+      superset db upgrade &&
+      superset fab create-admin
+        --username admin
+        --firstname Admin
+        --lastname User
+        --email admin@example.com
+        --password admin || true &&
+      superset init &&
+      superset run -h 0.0.0.0 -p 8088
+      "
+
+networks:
+  floci_default:
+    name: floci_default
+
+volumes:
+  superset_home:

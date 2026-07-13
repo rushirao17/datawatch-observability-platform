@@ -1,0 +1,53 @@
+.\bin\windows\kafka-storage.bat random-uuid  
+>>> Output1
+
+.\bin\windows\kafka-storage.bat format --standalone -t a_QLLooqTN6WX4oNwKhzZQ -c .\config\server.properties
+
+$env:KAFKA_HEAP_OPTS="-Xmx1G -Xms1G"
+$env:KAFKA_JVM_PERFORMANCE_OPTS=""
+.\bin\windows\kafka-server-start.bat .\config\server.properties   
+
+curl.exe -X DELETE http://localhost:8083/connectors/postgres-connector 
+curl.exe -X POST -H "Content-Type: application/json" --data "@postgres-cdc-connector.json" http://localhost:8083/connectors
+
+.\bin\windows\connect-distributed.bat .\config\connect-distributed.properties
+
+
+curl http://localhost:8083/connectors/postgres-connector/status
+
+.\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic pg_rb.public.orders  --from-beginning
+
+
+
+
+aws --endpoint-url http://localhost:4566 s3 ls s3://rawzone/client1/orders/date=20260611/hour=17/
+
+aws --endpoint-url http://localhost:4566 s3 rb s3://rawzone --recursive
+
+
+python delta-loader-glue.py --config .\config.json --window_start "2026-06-13 7:00:00" --window_end "2026-06-13 8:00:00"
+
+
+
+
+
+
+
+
+
+
+
+
+
+docker exec -it superset bash
+
+superset db upgrade
+superset init
+
+
+superset fab create-admin \
+  --username admin \
+  --firstname Admin \
+  --lastname User \
+  --email admin@example.com \
+  --password admin

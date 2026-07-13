@@ -1,0 +1,51 @@
+# Kafka installation and runtime data
+kafkamv/*
+!kafkamv/postgres-cdc-connector.json
+
+# Kafka and application logs
+kafkamv/logs/
+kafkamv/loggers/
+kafkamv/kraft-combined-logs/
+
+# Spark installation
+spark-*/
+spark-*.tgz
+
+# Kafka archives
+kafka_*.tgz
+debezium-connector-*.tar.gz
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+data/*
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+
+# LocalStack and generated S3 data
+data/s3/
+data/s3-objects.json
+*.s3data
+
+# Airflow runtime files
+airflow/logs/
+airflow.db
+airflow-webserver.pid
+
+# IDE and operating system
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

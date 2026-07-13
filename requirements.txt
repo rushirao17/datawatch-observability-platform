@@ -1,0 +1,6 @@
+kafka-python
+psycopg2-binary
+boto3
+awscli
+deltalake
+pyarrow
